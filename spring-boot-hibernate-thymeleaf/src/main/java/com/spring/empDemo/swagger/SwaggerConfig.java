@@ -1,4 +1,4 @@
-package com.howtodoinjava.demo.swagger;
+package com.spring.empDemo.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

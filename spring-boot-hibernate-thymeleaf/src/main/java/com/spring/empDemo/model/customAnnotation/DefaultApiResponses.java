@@ -1,4 +1,4 @@
-package com.howtodoinjava.demo.model.customAnnotation;
+package com.spring.empDemo.model.customAnnotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

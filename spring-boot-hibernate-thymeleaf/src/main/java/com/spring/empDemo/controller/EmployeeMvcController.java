@@ -1,4 +1,4 @@
-package com.howtodoinjava.demo.controller;
+package com.spring.empDemo.controller;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.howtodoinjava.demo.model.customAnnotation.DefaultApiResponses;
-import com.howtodoinjava.demo.model.entity.EmployeeEntity;
-import com.howtodoinjava.demo.service.EmployeeService;
+import com.spring.empDemo.model.customAnnotation.DefaultApiResponses;
+import com.spring.empDemo.model.entity.EmployeeEntity;
+import com.spring.empDemo.service.EmployeeService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
