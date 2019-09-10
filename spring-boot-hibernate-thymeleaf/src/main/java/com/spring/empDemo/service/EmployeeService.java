@@ -23,4 +23,6 @@ public interface EmployeeService {
 
 	public EmployeeEntity UpdateEmployeeById(EmployeeEntity updemp, long id) throws Exception ;
 
+	public EmployeeEntity createOrUpdateEmployee(EmployeeEntity employee);
+
 }

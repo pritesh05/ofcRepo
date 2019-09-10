@@ -8,14 +8,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.spring.empDemo.service.DbUserDetailsServiceImpl;
+import com.spring.empDemo.service.userDetailsServiceImpl;
 
+ 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		return new DbUserDetailsServiceImpl();
+		return new userDetailsServiceImpl();
 	}
 
 	@Bean
@@ -41,12 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		System.err.println(new Object() {
 		}.getClass().getEnclosingMethod().getName() + " HttpSecurity method called !!!");
-
-//		 http
-//         .csrf().disable()
-//         .authorizeRequests().anyRequest().authenticated()
-//         .and()
-//         .httpBasic().and().formLogin();
 
 		http.csrf().disable().authorizeRequests().anyRequest().authenticated().antMatchers("employee/all**")
 				.hasRole("admin").and().httpBasic().and().formLogin();

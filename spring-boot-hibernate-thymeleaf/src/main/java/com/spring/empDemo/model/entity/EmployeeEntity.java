@@ -6,15 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "TBL_EMPLOYEES")
 public class EmployeeEntity {
+	public EmployeeEntity() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
