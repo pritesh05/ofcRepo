@@ -21,7 +21,7 @@ public class SwaggerConfig {
 		System.out.println("\n" + new Object() {
 		}.getClass().getEnclosingMethod().getName() + " method called !!!" + "\n");
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.howtodoinjava.demo.controller"))
+				.apis(RequestHandlerSelectors.basePackage("com.spring.empDemo.controller"))
 				.paths(PathSelectors.any()).build().apiInfo(metaData());
 	}
 

@@ -43,7 +43,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Override
 	public EmployeeEntity addEmployee(EmployeeEntity newemp) {
-		System.out.println("\n" + this.getClass().getSimpleName() + " createOrUpdateEmployee method called !!!" + "\n");
+		System.out.println("\n" + this.getClass().getSimpleName() + " addEmployee method called !!!" + "\n");
 		newemp = eRepository.save(newemp);
 		return newemp;
 	}
@@ -88,33 +88,28 @@ public class EmployeeServiceImp implements EmployeeService {
 		return eRepository.save(updemp);
 	}
 
-	public EmployeeEntity createOrUpdateEmployee(EmployeeEntity entity)
-    {
-        if(entity.getId()  == null)
-        {
-            entity = eRepository.save(entity);
-             
-            return entity;
-        }
-        else
-        {
-            Optional<EmployeeEntity> employee = eRepository.findById(entity.getId());
-             
-            if(employee.isPresent())
-            {
-                EmployeeEntity newEntity = employee.get();
-                newEntity.setEmail(entity.getEmail());
-                newEntity.setFirstName(entity.getFirstName());
-                newEntity.setLastName(entity.getLastName());
- 
-                newEntity = eRepository.save(newEntity);
-                 
-                return newEntity;
-            } else {
-                entity = eRepository.save(entity);
-                 
-                return entity;
-            }
-        }
-    }
+	public EmployeeEntity createOrUpdateEmployee(EmployeeEntity entity) {
+		if (entity.getId() == null) {
+			entity = eRepository.save(entity);
+
+			return entity;
+		} else {
+			Optional<EmployeeEntity> employee = eRepository.findById(entity.getId());
+
+			if (employee.isPresent()) {
+				EmployeeEntity newEntity = employee.get();
+				newEntity.setEmail(entity.getEmail());
+				newEntity.setFirstName(entity.getFirstName());
+				newEntity.setLastName(entity.getLastName());
+
+				newEntity = eRepository.save(newEntity);
+
+				return newEntity;
+			} else {
+				entity = eRepository.save(entity);
+
+				return entity;
+			}
+		}
+	}
 }
