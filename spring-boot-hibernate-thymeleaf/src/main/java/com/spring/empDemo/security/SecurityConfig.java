@@ -19,18 +19,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new userDetailsServiceImpl();
 	}
 
-	@Bean
+	/*@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
+	}*/
 
 	protected void configure(AuthenticationManagerBuilder authBuilder) throws Exception {
 		System.err.println(new Object() {
 		}.getClass().getEnclosingMethod().getName() + " method called !!!");
 
-//		authBuilder.inMemoryAuthentication().withUser("root").password("{noop}root").roles("USER");
+		authBuilder.inMemoryAuthentication().withUser("root").password("{noop}root").roles("USER");
 
-		authBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+//		authBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
 		/*
 		 * .passwordEncoder(org.springframework.security.crypto.password.
 		 * NoOpPasswordEncoder.getInstance())

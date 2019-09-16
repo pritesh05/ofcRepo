@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.empDemo.exception.RecordNotFoundException;
+import com.spring.empDemo.model.entity.DepartmentEntity;
 import com.spring.empDemo.model.entity.EmployeeEntity;
 import com.spring.empDemo.repository.EmployeeRepository;
 
@@ -20,13 +21,14 @@ public class EmployeeServiceImp implements EmployeeService {
 	@Override
 	public List<EmployeeEntity> getAllEmployees() {
 		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called !!!" + "\n");
-		List<EmployeeEntity> employeeList = (List<EmployeeEntity>) eRepository.findAll();
-
-		if (employeeList.size() > 0) {
-			return employeeList;
-		} else {
-			return new ArrayList<EmployeeEntity>();
-		}
+		return eRepository.findAll();
+//		List<EmployeeEntity> employeeList = (List<EmployeeEntity>) eRepository.findAll();
+//
+//		if (employeeList.size() > 0) {
+//			return employeeList;
+//		} else {
+//			return new ArrayList<EmployeeEntity>();
+//		}
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Override
 	public EmployeeEntity addEmployee(EmployeeEntity newemp) {
-		System.out.println("\n" + this.getClass().getSimpleName() + " addEmployee method called !!!" + "\n");
+		List<EmployeeEntity> l1=new ArrayList<EmployeeEntity>();
 		newemp = eRepository.save(newemp);
 		return newemp;
 	}

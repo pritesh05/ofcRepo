@@ -1,7 +1,7 @@
 package com.spring.empDemo.model.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,26 +10,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModelProperty;
 
-/**
- * @author dpritesh
- *
- */
-/**
- * @author dpritesh
- *
- */
 @Entity
 @Table(name = "TBL_EMPLOYEES")
+@JsonIgnoreProperties(value = { "createdAt", "updatedAt" })
 public class EmployeeEntity implements Serializable {
+
+	public EmployeeEntity() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public EmployeeEntity(Long id, String firstName, String lastName, String gender, String dob, String hireDate,
+			String email, Double salary, Double bonus, Double comm) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.dob = dob;
+		this.hireDate = hireDate;
+		this.email = email;
+		this.salary = salary;
+		this.bonus = bonus;
+		this.comm = comm;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,37 +74,17 @@ public class EmployeeEntity implements Serializable {
 //    @Email(message = "Email should be valid")
 	@ApiModelProperty(notes = "email id of employee")
 	private String email;
+	@Column(name = "salary")
+	private Double salary;
+	@Column(name = "bonus")
+	private Double bonus;
+	@Column(name = "comm")
+	private Double comm;
 
-	/**
-	 * one-to-one relationship between common table with the help of @JoinTble
-	 * annotation
-	 * 
-	 * @OneToOne(cascade = CascadeType.ALL)
-	 * @JoinTable(name = "JOIN_TBL_EMP_DEPT", joinColumns = {@JoinColumn(name =
-	 *                 "em_id",referencedColumnName = "emp_id")}, inverseJoinColumns
-	 *                 = {@JoinColumn(name = "dep_id",referencedColumnName =
-	 *                 "dept_id",unique = true)}) private DepartmentEntity
-	 *                 department;
-	 */
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "JOIN_TBL_EMP_DEPT", joinColumns = {
-//			@JoinColumn(name = "emp_id", referencedColumnName = "emp_id") }, inverseJoinColumns = {
-//					@JoinColumn(name = "dept_id", referencedColumnName = "dept_id") })
-//	private Set<DepartmentEntity> department;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "JOIN_TBL_EMP_DEPT", joinColumns = {
-			@JoinColumn(name = "em_id", referencedColumnName = "emp_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "dep_id", referencedColumnName = "dept_id") })
-	private DepartmentEntity department;
-	
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinTable(name = "JOIN_TBL_EMP_DEPT_MNGR", joinColumns = @JoinColumn(name = "emp_id"), inverseJoinColumns = @JoinColumn(name = "dept_mngr_id"))
-//	private DepartmentManager departmentManager;
-
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinTable(name = "JOIN_TBL_EMP_SALARY", joinColumns = @JoinColumn(name = "emp_id"), inverseJoinColumns = @JoinColumn(name = "sal_id"))
-//	private SalaryEntity salaryEntity;
+	@JoinColumn(name = "FK_dept_id")
+	private DepartmentEntity departmentEntity;
 
 	public Long getId() {
 		return id;
@@ -145,4 +142,65 @@ public class EmployeeEntity implements Serializable {
 		this.email = email;
 	}
 
+	@JsonIgnore
+	public DepartmentEntity getDepartmentEntity() {
+		return departmentEntity;
+	}
+
+	@JsonIgnore
+	public void setDepartmentEntity(DepartmentEntity departmentEntity) {
+		this.departmentEntity = departmentEntity;
+	}
+
+	public Double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(Double salary) {
+		this.salary = salary;
+	}
+
+	public Double getBonus() {
+		return bonus;
+	}
+
+	public void setBonus(Double bonus) {
+		this.bonus = bonus;
+	}
+
+	public Double getComm() {
+		return comm;
+	}
+
+	public void setComm(Double comm) {
+		this.comm = comm;
+	}
+
+
+	@Override
+	public String toString() {
+		return "EmployeeEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
+				+ ", dob=" + dob + ", hireDate=" + hireDate + ", email=" + email + ", salary=" + salary + ", bonus="
+				+ bonus + ", comm=" + comm + ", departmentEntity=" + departmentEntity + "]";
+	}
+
 }
+
+/**
+ * one-to-one relationship between common table with the help of @JoinTble
+ * annotation
+ * 
+ * @OneToOne(cascade = CascadeType.ALL)
+ * @JoinTable(name = "JOIN_TBL_EMP_DEPT", joinColumns = {@JoinColumn(name =
+ *                 "em_id",referencedColumnName = "emp_id")}, inverseJoinColumns
+ *                 = {@JoinColumn(name = "dep_id",referencedColumnName =
+ *                 "dept_id",unique = true)}) private DepartmentEntity
+ *                 department;
+ * 
+ * @ManyToMany(cascade = CascadeType.ALL)
+ * @JoinTable(name = "JOIN_TBL_EMP_DEPT", joinColumns = {
+ * @JoinColumn(name = "emp_id", referencedColumnName = "emp_id") },
+ *                  inverseJoinColumns = {
+ * @JoinColumn(name = "dept_id", referencedColumnName = "dept_id") }) private
+ *                  Set<DepartmentEntity> department;
+ */
