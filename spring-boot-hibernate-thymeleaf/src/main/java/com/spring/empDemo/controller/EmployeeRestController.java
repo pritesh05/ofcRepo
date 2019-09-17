@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/employees")
 @DefaultApiResponses
 @Api(value = "Employee Data", description = "performing CRUD Operations for employee data")
 public class EmployeeRestController {

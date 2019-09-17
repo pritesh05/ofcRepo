@@ -28,6 +28,7 @@ com\spring\empDemo\controller\EmployeeRestController.class
 com\spring\empDemo\security\SecurityConfig$2.class
 com\spring\empDemo\swagger\SwaggerConfig.class
 com\spring\empDemo\model\entity\StateEntity.class
+com\spring\empDemo\model\entity\SalaryEntity.class
 com\spring\empDemo\repository\StateRepository.class
 com\spring\empDemo\repository\EmployeeRepository.class
 com\spring\empDemo\service\userDetailsServiceImpl.class
