@@ -1,5 +1,6 @@
 package com.spring.empDemo.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,23 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/employees")
 @DefaultApiResponses
 @Api(value = "Employee Data", description = "performing CRUD Operations for employee data")
 public class EmployeeRestController {
 	@Autowired
 	EmployeeService service;
 
+//	@ApiOperation(value = "View a list of available employees", response = List.class)
+//	@RequestMapping(method = RequestMethod.GET)
+//	public List<EmployeeEntity> getAllEmployees() {
+//		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called..." + "\n");
+//		return service.getAllEmployees();
+//	}
+	
 	@ApiOperation(value = "View a list of available employees", response = List.class)
 	@RequestMapping(method = RequestMethod.GET)
-	public List<EmployeeEntity> getAllEmployees() {
+	public List<EmployeeEntity> getAllEmployees() throws ParseException {
 		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called..." + "\n");
 		return service.getAllEmployees();
 	}
@@ -41,18 +49,13 @@ public class EmployeeRestController {
 		return emp;
 	}
 
+	
 	@ApiOperation(value = "Add employee Record")
-	@RequestMapping(value = "/employee/add", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public EmployeeEntity addEmployee(@RequestBody EmployeeEntity newemp) {
 		System.out.println(this.getClass().getSimpleName() + " - Create new employee method is invoked.");
 		return service.addEmployee(newemp);
 	}
-//	@ApiOperation(value = "Add employee Record")
-//	@RequestMapping(value = "/add/emp",method = RequestMethod.POST)
-//	public EmployeeEntity addEmployee(@RequestBody EmployeeEntity newemp) {
-//		System.out.println(this.getClass().getSimpleName() + " - Create new employee method is invoked.");
-//		return service.addEmployee(newemp);
-//	}
 
 	@ApiOperation(value = "Add list of employees Data")
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
@@ -64,7 +67,7 @@ public class EmployeeRestController {
 
 	@ApiOperation(value = "Update employees Record")
 	@RequestMapping(method = RequestMethod.PUT)
-	public EmployeeEntity UpdateEmployee(@RequestBody EmployeeEntity upemp, @PathVariable long id) throws Exception {
+	public EmployeeEntity UpdateEmployee(@RequestBody EmployeeEntity upemp, @PathVariable Long id) throws Exception {
 		System.out.println("\n" + this.getClass().getSimpleName() + " UpdateEmployee method called..." + "\n");
 		return service.UpdateEmployeeById(upemp, id);
 	}
@@ -81,7 +84,7 @@ public class EmployeeRestController {
 
 	@ApiOperation(value = "Delete all employees Records")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "No Content") })
-	@RequestMapping(value = "/employee/deleteall", method = RequestMethod.DELETE)
+	@RequestMapping( method = RequestMethod.DELETE)
 	public void deleteAll() {
 		System.out.println(this.getClass().getSimpleName() + " - Delete all employees is invoked.");
 		service.deleteAllEmployees();

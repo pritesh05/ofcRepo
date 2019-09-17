@@ -36,25 +36,11 @@ public class CityServiceImpl implements CityService {
 		return cRepository.findById(cityId);
 	}
 
+	@Override
 	public CityEntity addCity(Integer stateId, CityEntity cityEntity) throws RecordNotFoundException {
-		Set<CityEntity> cities = new HashSet<>();
-		StateEntity state = new StateEntity();
-
-		Optional<StateEntity> byId = sRepository.findById(stateId);
-		if (!byId.isPresent()) {
-			throw new RecordNotFoundException("state with id " + stateId + " does not exist");
-		}
-		StateEntity stateEntity = byId.get();
-
-		cityEntity.setStateEntity(stateEntity);
-
-		CityEntity city1 = cRepository.save(cityEntity);
-		cities.add(city1);
-		state.setCityEntities(cities);
-		;
-
-		return city1;
-
+		return null;
 	}
+
+
 
 }

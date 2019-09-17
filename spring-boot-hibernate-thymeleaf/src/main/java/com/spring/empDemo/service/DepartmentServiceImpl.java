@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.empDemo.exception.RecordNotFoundException;
 import com.spring.empDemo.model.entity.DepartmentEntity;
+import com.spring.empDemo.model.entity.EmployeeEntity;
 import com.spring.empDemo.repository.DepartmentRepository;
 
 @Service
@@ -16,15 +17,20 @@ public class DepartmentServiceImpl {
 	DepartmentRepository dRepository;
 
 	public List<DepartmentEntity> getAllDept() {
+		List<DepartmentEntity> list=dRepository.findAll();
+		for (DepartmentEntity employeeEntity : list) {
+			System.err.println(employeeEntity);
+//			System.err.println(employeeEntity.getDepartmentEntity().getDepartment());
+		}
 		return dRepository.findAll();
 	}
 
 	public DepartmentEntity getDeptById(long id) throws RecordNotFoundException {
-		Optional<DepartmentEntity> optional = dRepository.findById((int) id);
+		Optional<DepartmentEntity> optional = dRepository.findById(id);
 		if (optional.isPresent()) {
 			return optional.get();
 		} else {
-			throw new RecordNotFoundException("No employee record exist for given id");
+			throw new RecordNotFoundException("No department record exist for given id");
 		}
 	}
 

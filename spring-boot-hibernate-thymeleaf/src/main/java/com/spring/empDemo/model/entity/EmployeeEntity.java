@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,11 +17,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -55,7 +61,6 @@ public class EmployeeEntity implements Serializable {
 	private Long id;
 
 	@Column(name = "first_name")
-//    @Size(min = 2, max = 30)
 	@ApiModelProperty(notes = "first name of employee")
 	private String firstName;
 
@@ -65,26 +70,42 @@ public class EmployeeEntity implements Serializable {
 
 	@Column(name = "gender")
 	private String gender;
+	
 	@Column(name = "date_of_birth")
 	private String dob;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	@Column(name = "hire_date")
 	private String hireDate;
 
 	@Column(name = "email", nullable = false, length = 200)
-//    @Email(message = "Email should be valid")
 	@ApiModelProperty(notes = "email id of employee")
 	private String email;
+
 	@Column(name = "salary")
 	private Double salary;
+
 	@Column(name = "bonus")
 	private Double bonus;
+
 	@Column(name = "comm")
 	private Double comm;
 
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", nullable = false, updatable = false)
+	private Date createdAt;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "modify_date", nullable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	private Date modifyDate;
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_dept_id")
 	private DepartmentEntity departmentEntity;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -176,13 +197,31 @@ public class EmployeeEntity implements Serializable {
 		this.comm = comm;
 	}
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
 
 	@Override
 	public String toString() {
 		return "EmployeeEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
 				+ ", dob=" + dob + ", hireDate=" + hireDate + ", email=" + email + ", salary=" + salary + ", bonus="
-				+ bonus + ", comm=" + comm + ", departmentEntity=" + departmentEntity + "]";
+				+ bonus + ", comm=" + comm + ", createdAt=" + createdAt + ", modifyDate=" + modifyDate
+				+ ", departmentEntity="  + departmentEntity+ "]";
 	}
+
+	 
 
 }
 

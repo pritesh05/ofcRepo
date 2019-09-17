@@ -21,31 +21,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TBL_DEPARTMENTS")
 public class DepartmentEntity implements Serializable {
-	
+
 	public DepartmentEntity() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DepartmentEntity(long id, String department, Set<EmployeeEntity> employeeEntities) {
+	/*public DepartmentEntity(long id, String department, Set<EmployeeEntity> employeeEntities) {
 		super();
 		this.id = id;
 		this.department = department;
 		this.employeeEntities = employeeEntities;
-	}
+	}*/
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "dept_id")
+	@Column(name = "department_id")
 	private long id;
-	@Column(name = "department")
+	@Column(name = "department_name")
 	private String department;
+	@Column(name = "short_name",length = 5)
+	private String shortName;
+	
 
 	@OneToMany(mappedBy = "departmentEntity")
 	private Set<EmployeeEntity> employeeEntities = new HashSet<EmployeeEntity>();
 
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "JOIN_TBL_EMP_DEPT")
-//	private EmployeeEntity employeeEntities ;
 
 	public long getId() {
 		return id;
@@ -63,6 +63,14 @@ public class DepartmentEntity implements Serializable {
 		this.department = department;
 	}
 
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
 	public Set<EmployeeEntity> getEmployeeEntities() {
 		return employeeEntities;
 	}
@@ -73,8 +81,14 @@ public class DepartmentEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DepartmentEntity [id=" + id + ", department=" + department + ", employeeEntities=" + employeeEntities
-				+ "]";
+		return "DepartmentEntity [id=" + id + ", department=" + department + ", shortName=" + shortName
+				+ ", employeeEntities="  +employeeEntities+ "]";
 	}
+
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "JOIN_TBL_EMP_DEPT")
+//	private EmployeeEntity employeeEntities ;
+
+ 
 
 }

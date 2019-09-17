@@ -1,6 +1,9 @@
 package com.spring.empDemo.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.empDemo.exception.RecordNotFoundException;
-import com.spring.empDemo.model.entity.DepartmentEntity;
 import com.spring.empDemo.model.entity.EmployeeEntity;
 import com.spring.empDemo.repository.EmployeeRepository;
 
@@ -19,17 +21,33 @@ public class EmployeeServiceImp implements EmployeeService {
 	EmployeeRepository eRepository;
 
 	@Override
-	public List<EmployeeEntity> getAllEmployees() {
+	public List<EmployeeEntity> getAllEmployees() throws ParseException {
+		List<EmployeeEntity> list=eRepository.findAll();
+		String dob,hireDate;
+		for (EmployeeEntity employeeEntity : list) {
+			dob=employeeEntity.getDob();
+			hireDate=employeeEntity.getHireDate();
+//			date=new SimpleDateFormat("dd/MM/yyyy").parse(dob);
+//			employeeEntity.setDob(new SimpleDateFormat("dd/MM/yyyy").format(date));
+//			date=new SimpleDateFormat("dd/MM/yyyy").parse(hireDate);
+//			employeeEntity.setHireDate(new SimpleDateFormat("dd/MM/yyyy").format(date));
+			
+//			dateFormat(dob,"dd/MM/yyyy");
+//			System.err.println(employeeEntity.getDepartmentEntity().getDepartment());
+//			System.err.println(dob+" -- "+hireDate);
+		}
+		System.err.println(list);
 		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called !!!" + "\n");
 		return eRepository.findAll();
-//		List<EmployeeEntity> employeeList = (List<EmployeeEntity>) eRepository.findAll();
-//
-//		if (employeeList.size() > 0) {
-//			return employeeList;
-//		} else {
-//			return new ArrayList<EmployeeEntity>();
-//		}
 	}
+
+	/*private String dateFormat(String dob, String string) {
+		  
+	    Date date;  		
+	    System.err.println(dob+" ---- "+string);
+		return string;
+		
+	}*/
 
 	@Override
 	public EmployeeEntity getEmployeeById(Long id) throws RecordNotFoundException {
@@ -37,6 +55,7 @@ public class EmployeeServiceImp implements EmployeeService {
 		Optional<EmployeeEntity> employee = eRepository.findById(id);
 
 		if (employee.isPresent()) {
+			String deptName = employee.get().getDepartmentEntity().getShortName();
 			return employee.get();
 		} else {
 			throw new RecordNotFoundException("No employee record exist for given id");
@@ -45,7 +64,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Override
 	public EmployeeEntity addEmployee(EmployeeEntity newemp) {
-		List<EmployeeEntity> l1=new ArrayList<EmployeeEntity>();
+		List<EmployeeEntity> l1 = new ArrayList<EmployeeEntity>();
 		newemp = eRepository.save(newemp);
 		return newemp;
 	}
@@ -75,15 +94,15 @@ public class EmployeeServiceImp implements EmployeeService {
 	}
 
 	@Override
-	public EmployeeEntity UpdateEmployeeById(EmployeeEntity updemp, long id) throws RecordNotFoundException {
+	public EmployeeEntity UpdateEmployeeById(EmployeeEntity updemp, Long id) throws RecordNotFoundException {
 		System.out.println("\n" + this.getClass().getSimpleName() + "  UpdateEmployeeById method called !!!" + "\n");
 		EmployeeEntity emp = getEmployeeById(id);
 
-		if (updemp.getFirstName() == null || updemp.getFirstName().isEmpty())
+		if (emp.getFirstName() == null || emp.getFirstName().isEmpty())
 			updemp.setFirstName(emp.getFirstName());
-		if (updemp.getLastName() == null || updemp.getLastName().isEmpty())
+		if (emp.getLastName() == null || emp.getLastName().isEmpty())
 			updemp.setLastName(emp.getLastName());
-		if (updemp.getEmail() == null)
+		if (emp.getEmail() == null)
 			updemp.setEmail(emp.getEmail());
 		updemp.setId(id);
 //		System.err.println(updemp);
@@ -105,7 +124,6 @@ public class EmployeeServiceImp implements EmployeeService {
 				newEntity.setLastName(entity.getLastName());
 
 				newEntity = eRepository.save(newEntity);
-
 				return newEntity;
 			} else {
 				entity = eRepository.save(entity);

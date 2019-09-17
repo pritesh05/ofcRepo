@@ -13,7 +13,6 @@ com\spring\empDemo\controller\DepartmentRestController.class
 com\spring\empDemo\service\DepartmentServiceImpl.class
 com\spring\empDemo\model\entity\EmployeeEntity.class
 com\spring\empDemo\model\entity\UsersEntity.class
-com\spring\empDemo\controller\EmployeeController.class
 com\spring\empDemo\service\userDetailsServiceImpl$1.class
 com\spring\empDemo\security\SecurityConfig.class
 com\spring\empDemo\controller\StateCityRestController.class
@@ -28,6 +27,7 @@ com\spring\empDemo\controller\EmployeeRestController.class
 com\spring\empDemo\security\SecurityConfig$2.class
 com\spring\empDemo\swagger\SwaggerConfig.class
 com\spring\empDemo\model\entity\StateEntity.class
+com\spring\empDemo\model\entity\SalaryEntity.class
 com\spring\empDemo\repository\StateRepository.class
 com\spring\empDemo\repository\EmployeeRepository.class
 com\spring\empDemo\service\userDetailsServiceImpl.class

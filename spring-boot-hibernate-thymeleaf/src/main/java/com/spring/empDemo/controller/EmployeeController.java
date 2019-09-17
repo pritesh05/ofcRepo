@@ -1,5 +1,6 @@
 package com.spring.empDemo.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class EmployeeController
     EmployeeService service;
  
     @RequestMapping
-    public String getAllEmployees(Model model)
+    public String getAllEmployees(Model model) throws ParseException
     {
         List<EmployeeEntity> list = service.getAllEmployees();
  
