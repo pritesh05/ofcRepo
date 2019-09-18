@@ -2,6 +2,10 @@ package com.spring.empDemo.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,15 +16,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,7 +47,7 @@ public class EmployeeEntity implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public EmployeeEntity(Long id, String firstName, String lastName, String gender, String dob, String hireDate,
+	public EmployeeEntity(String id, String firstName, String lastName, String gender, Date dob, Date hireDate,
 			String email, Double salary, Double bonus, Double comm) {
 		super();
 		this.id = id;
@@ -58,7 +66,7 @@ public class EmployeeEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "The database generated employee ID")
 	@Column(name = "emp_id")
-	private Long id;
+	private String id;
 
 	@Column(name = "first_name")
 	@ApiModelProperty(notes = "first name of employee")
@@ -70,12 +78,16 @@ public class EmployeeEntity implements Serializable {
 
 	@Column(name = "gender")
 	private String gender;
-	
-	@Column(name = "date_of_birth")
-	private String dob;
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_of_birth")
+	private Date dob;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@Temporal(TemporalType.DATE)
 	@Column(name = "hire_date")
-	private String hireDate;
+	private Date hireDate;
 
 	@Column(name = "email", nullable = false, length = 200)
 	@ApiModelProperty(notes = "email id of employee")
@@ -102,16 +114,22 @@ public class EmployeeEntity implements Serializable {
 	private Date modifyDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	@JoinColumn(name = "FK_dept_id")
 	private DepartmentEntity departmentEntity;
-	
-	
 
-	public Long getId() {
+	@Transient
+	HashMap<String, Object> depart = new HashMap<String, Object>();
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "FK_address_id")
+	private AddressEntity addressEntity;
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -139,19 +157,19 @@ public class EmployeeEntity implements Serializable {
 		this.gender = gender;
 	}
 
-	public String getDob() {
+	public Date getDob() {
 		return dob;
 	}
 
-	public void setDob(String dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 
-	public String getHireDate() {
+	public Date getHireDate() {
 		return hireDate;
 	}
 
-	public void setHireDate(String hireDate) {
+	public void setHireDate(Date hireDate) {
 		this.hireDate = hireDate;
 	}
 
@@ -161,16 +179,6 @@ public class EmployeeEntity implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@JsonIgnore
-	public DepartmentEntity getDepartmentEntity() {
-		return departmentEntity;
-	}
-
-	@JsonIgnore
-	public void setDepartmentEntity(DepartmentEntity departmentEntity) {
-		this.departmentEntity = departmentEntity;
 	}
 
 	public Double getSalary() {
@@ -213,15 +221,37 @@ public class EmployeeEntity implements Serializable {
 		this.modifyDate = modifyDate;
 	}
 
+	public DepartmentEntity getDepartmentEntity() {
+		return departmentEntity;
+	}
+
+	public void setDepartmentEntity(DepartmentEntity departmentEntity) {
+		this.departmentEntity = departmentEntity;
+	}
+
+	public HashMap<String, Object> getDepart() {
+		return depart;
+	}
+
+	public void setDepart(HashMap<String, Object> depart) {
+		this.depart = depart;
+	}
+
+	public AddressEntity getAddressEntity() {
+		return addressEntity;
+	}
+
+	public void setAddressEntity(AddressEntity addressEntity) {
+		this.addressEntity = addressEntity;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
 				+ ", dob=" + dob + ", hireDate=" + hireDate + ", email=" + email + ", salary=" + salary + ", bonus="
 				+ bonus + ", comm=" + comm + ", createdAt=" + createdAt + ", modifyDate=" + modifyDate
-				+ ", departmentEntity="  + departmentEntity+ "]";
+				+ ", departmentEntity=" + departmentEntity + "]";
 	}
-
-	 
 
 }
 

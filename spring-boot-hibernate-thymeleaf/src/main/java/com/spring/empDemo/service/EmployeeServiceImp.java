@@ -4,8 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,39 +26,38 @@ public class EmployeeServiceImp implements EmployeeService {
 	@Override
 	public List<EmployeeEntity> getAllEmployees() throws ParseException {
 		List<EmployeeEntity> list=eRepository.findAll();
-		String dob,hireDate;
+		
+		HashMap<String, Object> hmap=new HashMap<String, Object>();
+		String sUId;
 		for (EmployeeEntity employeeEntity : list) {
-			dob=employeeEntity.getDob();
-			hireDate=employeeEntity.getHireDate();
-//			date=new SimpleDateFormat("dd/MM/yyyy").parse(dob);
-//			employeeEntity.setDob(new SimpleDateFormat("dd/MM/yyyy").format(date));
-//			date=new SimpleDateFormat("dd/MM/yyyy").parse(hireDate);
-//			employeeEntity.setHireDate(new SimpleDateFormat("dd/MM/yyyy").format(date));
+			sUId="e";
+			sUId = sUId + UUID.randomUUID().toString()+employeeEntity.getId();
+			employeeEntity.setId(sUId);
+			System.err.println(sUId+"\n");
+			sUId=null;
+			hmap.put("id", employeeEntity.getDepartmentEntity().getId());
+			hmap.put("name", employeeEntity.getDepartmentEntity().getDepartment());
+			employeeEntity.setDepart(hmap);
+			employeeEntity.getId();
+			employeeEntity.getAddressEntity().setCityId(employeeEntity.getAddressEntity().getCityEntity().getCityId());
+			employeeEntity.getAddressEntity().setStateId(employeeEntity.getAddressEntity().getStateEntity().getStateId());
+			employeeEntity.getAddressEntity().setCountryId(employeeEntity.getAddressEntity().getCountryEntity().getCountryId());
+			System.err.println(employeeEntity.getAddressEntity().getCountryEntity().getCountryId());
 			
-//			dateFormat(dob,"dd/MM/yyyy");
-//			System.err.println(employeeEntity.getDepartmentEntity().getDepartment());
-//			System.err.println(dob+" -- "+hireDate);
 		}
 		System.err.println(list);
 		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called !!!" + "\n");
 		return eRepository.findAll();
 	}
 
-	/*private String dateFormat(String dob, String string) {
-		  
-	    Date date;  		
-	    System.err.println(dob+" ---- "+string);
-		return string;
-		
-	}*/
 
 	@Override
-	public EmployeeEntity getEmployeeById(Long id) throws RecordNotFoundException {
+	public EmployeeEntity getEmployeeById(String id) throws RecordNotFoundException {
 		System.out.println("\n" + this.getClass().getSimpleName() + " getEmployeeById method called !!!" + "\n");
 		Optional<EmployeeEntity> employee = eRepository.findById(id);
 
 		if (employee.isPresent()) {
-			String deptName = employee.get().getDepartmentEntity().getShortName();
+//			String deptName = employee.get().getDepartmentEntity().getShortName();
 			return employee.get();
 		} else {
 			throw new RecordNotFoundException("No employee record exist for given id");
@@ -64,7 +66,8 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Override
 	public EmployeeEntity addEmployee(EmployeeEntity newemp) {
-		List<EmployeeEntity> l1 = new ArrayList<EmployeeEntity>();
+//		List<EmployeeEntity> l1 = new ArrayList<EmployeeEntity>();
+//		System.err.println(newemp.getDob());
 		newemp = eRepository.save(newemp);
 		return newemp;
 	}
@@ -77,7 +80,7 @@ public class EmployeeServiceImp implements EmployeeService {
 	}
 
 	@Override
-	public void deleteEmployeeById(Long id) throws RecordNotFoundException {
+	public void deleteEmployeeById(String id) throws RecordNotFoundException {
 		System.out.println("\n" + this.getClass().getSimpleName() + " deleteEmployeeById method called !!!" + "\n");
 		Optional<EmployeeEntity> employee = eRepository.findById(id);
 
@@ -94,7 +97,7 @@ public class EmployeeServiceImp implements EmployeeService {
 	}
 
 	@Override
-	public EmployeeEntity UpdateEmployeeById(EmployeeEntity updemp, Long id) throws RecordNotFoundException {
+	public EmployeeEntity UpdateEmployeeById(EmployeeEntity updemp, String id) throws RecordNotFoundException {
 		System.out.println("\n" + this.getClass().getSimpleName() + "  UpdateEmployeeById method called !!!" + "\n");
 		EmployeeEntity emp = getEmployeeById(id);
 
@@ -109,7 +112,7 @@ public class EmployeeServiceImp implements EmployeeService {
 		return eRepository.save(updemp);
 	}
 
-	public EmployeeEntity createOrUpdateEmployee(EmployeeEntity entity) {
+/*	public EmployeeEntity createOrUpdateEmployee(EmployeeEntity entity) {
 		if (entity.getId() == null) {
 			entity = eRepository.save(entity);
 
@@ -131,5 +134,5 @@ public class EmployeeServiceImp implements EmployeeService {
 				return entity;
 			}
 		}
-	}
+	}*/
 }

@@ -10,28 +10,43 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "Cities")
+@Table(name = "TBL_CITY")
 public class CityEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "city_id", length = 3, nullable = false)
-	private int cityId;
+	private Long cityId;
 	@Column(name = "city_name", length = 30)
 	private String cityName;
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_state_id")
 	private StateEntity stateEntity;
 
-	public int getCityId() {
+	@JsonIgnore
+	@OneToOne(mappedBy = "cityEntity")
+	private AddressEntity addressEntity;
+
+	public AddressEntity getAddressEntity() {
+		return addressEntity;
+	}
+
+	public void setAddressEntity(AddressEntity addressEntity) {
+		this.addressEntity = addressEntity;
+	}
+
+	public Long getCityId() {
 		return cityId;
 	}
 
-	public void setCityId(int cityId) {
+	public void setCityId(Long cityId) {
 		this.cityId = cityId;
 	}
 
@@ -42,22 +57,20 @@ public class CityEntity implements Serializable {
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
-	
-	@JsonIgnore
+
 	public StateEntity getStateEntity() {
 		return stateEntity;
 	}
-	@JsonIgnore
+
 	public void setStateEntity(StateEntity stateEntity) {
 		this.stateEntity = stateEntity;
 	}
 
 	@Override
 	public String toString() {
-		return "CityEntity [cityId=" + cityId + ", cityName=" + cityName + ", stateEntity=" + stateEntity + "]";
+		return "CityEntity [cityId=" + cityId + ", cityName=" + cityName + "]";
 	}
 
-	
 	/*
 	 * @ManyToMany(cascade = CascadeType.ALL)
 	 * 

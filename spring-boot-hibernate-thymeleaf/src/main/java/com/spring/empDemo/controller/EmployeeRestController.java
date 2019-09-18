@@ -43,7 +43,7 @@ public class EmployeeRestController {
 
 	@ApiOperation(value = "View a employees based on id", response = EmployeeEntity.class)
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public EmployeeEntity getEmployeeById(@PathVariable long id) throws Exception {
+	public EmployeeEntity getEmployeeById(@PathVariable String id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Get employee details by id is invoked.");
 		EmployeeEntity emp = service.getEmployeeById(id);
 		return emp;
@@ -67,7 +67,7 @@ public class EmployeeRestController {
 
 	@ApiOperation(value = "Update employees Record")
 	@RequestMapping(method = RequestMethod.PUT)
-	public EmployeeEntity UpdateEmployee(@RequestBody EmployeeEntity upemp, @PathVariable Long id) throws Exception {
+	public EmployeeEntity UpdateEmployee(@RequestBody EmployeeEntity upemp, @PathVariable String id) throws Exception {
 		System.out.println("\n" + this.getClass().getSimpleName() + " UpdateEmployee method called..." + "\n");
 		return service.UpdateEmployeeById(upemp, id);
 	}
@@ -75,7 +75,7 @@ public class EmployeeRestController {
 	@ApiOperation(value = "Deleting employee data based on Id")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "No Content") })
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteEmployeeById(@PathVariable long id) throws Exception {
+	public void deleteEmployeeById(@PathVariable String id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Delete employee by id is invoked.");
 
 		EmployeeEntity emp = service.getEmployeeById(id);

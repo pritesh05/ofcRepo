@@ -40,5 +40,6 @@ public class DepartmentRestController {
 		DepartmentEntity dept  = dService.getDeptById(id);
 		return dept;
 	}
+	
 
 }
