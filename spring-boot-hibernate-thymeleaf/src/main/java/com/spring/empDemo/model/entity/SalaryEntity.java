@@ -15,27 +15,27 @@ public class SalaryEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sal_id")
-	private long id;
+	private Long id;
 	@Column(name = "salary")
-	private double salary;
+	private Double salary;
 	@Column(name = "bonus")
-	private double bonus;
+	private Double bonus;
 	public long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public double getSalary() {
 		return salary;
 	}
-	public void setSalary(double salary) {
+	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
 	public double getBonus() {
 		return bonus;
 	}
-	public void setBonus(double bonus) {
+	public void setBonus(Double bonus) {
 		this.bonus = bonus;
 	}
 	@Override

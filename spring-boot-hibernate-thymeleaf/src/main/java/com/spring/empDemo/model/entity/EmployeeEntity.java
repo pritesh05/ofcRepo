@@ -3,9 +3,7 @@ package com.spring.empDemo.model.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.LinkedHashMap;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,25 +14,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -44,22 +39,6 @@ import io.swagger.annotations.ApiModelProperty;
 public class EmployeeEntity implements Serializable {
 
 	public EmployeeEntity() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public EmployeeEntity(String id, String firstName, String lastName, String gender, Date dob, Date hireDate,
-			String email, Double salary, Double bonus, Double comm) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.gender = gender;
-		this.dob = dob;
-		this.hireDate = hireDate;
-		this.email = email;
-		this.salary = salary;
-		this.bonus = bonus;
-		this.comm = comm;
 	}
 
 	@Id
@@ -114,16 +93,17 @@ public class EmployeeEntity implements Serializable {
 	private Date modifyDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnore
 	@JoinColumn(name = "FK_dept_id")
 	private DepartmentEntity departmentEntity;
 
-	@Transient
-	HashMap<String, Object> depart = new HashMap<String, Object>();
-
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "FK_address_id")
 	private AddressEntity addressEntity;
+
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private transient Long deptId;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private transient Long addId;
 
 	public String getId() {
 		return id;
@@ -221,6 +201,7 @@ public class EmployeeEntity implements Serializable {
 		this.modifyDate = modifyDate;
 	}
 
+	@JsonGetter("department")
 	public DepartmentEntity getDepartmentEntity() {
 		return departmentEntity;
 	}
@@ -229,14 +210,7 @@ public class EmployeeEntity implements Serializable {
 		this.departmentEntity = departmentEntity;
 	}
 
-	public HashMap<String, Object> getDepart() {
-		return depart;
-	}
-
-	public void setDepart(HashMap<String, Object> depart) {
-		this.depart = depart;
-	}
-
+	@JsonGetter("address")
 	public AddressEntity getAddressEntity() {
 		return addressEntity;
 	}
@@ -245,12 +219,28 @@ public class EmployeeEntity implements Serializable {
 		this.addressEntity = addressEntity;
 	}
 
+	public Long getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Long deptId) {
+		this.deptId = deptId;
+	}
+
+	public Long getAddId() {
+		return addId;
+	}
+
+	public void setAddId(Long addId) {
+		this.addId = addId;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
 				+ ", dob=" + dob + ", hireDate=" + hireDate + ", email=" + email + ", salary=" + salary + ", bonus="
-				+ bonus + ", comm=" + comm + ", createdAt=" + createdAt + ", modifyDate=" + modifyDate
-				+ ", departmentEntity=" + departmentEntity + "]";
+				+ bonus + ", comm=" + comm + ", createdAt=" + createdAt + ", modifyDate=" + modifyDate + ", deptId="
+				+ deptId + ", addId=" + addId + "]";
 	}
 
 }

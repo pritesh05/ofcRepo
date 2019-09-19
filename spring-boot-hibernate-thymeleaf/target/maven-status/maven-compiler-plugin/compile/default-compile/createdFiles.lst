@@ -1,4 +1,3 @@
-com\spring\empDemo\model\entity\DepartmentManager.class
 com\spring\empDemo\service\CityServiceImpl.class
 com\spring\empDemo\service\EmployeeService.class
 com\spring\empDemo\repository\UsersRepository.class
@@ -25,6 +24,7 @@ com\spring\empDemo\service\CityService.class
 com\spring\empDemo\service\EmployeeServiceImp.class
 com\spring\empDemo\security\SecurityConfig$1.class
 com\spring\empDemo\service\StateServiceImpl.class
+com\spring\empDemo\repository\AddressRepository.class
 com\spring\empDemo\swagger\SwaggerConfig$1.class
 com\spring\empDemo\controller\EmployeeRestController.class
 com\spring\empDemo\security\SecurityConfig$2.class

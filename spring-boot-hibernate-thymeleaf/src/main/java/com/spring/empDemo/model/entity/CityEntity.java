@@ -1,6 +1,7 @@
 package com.spring.empDemo.model.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class CityEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "city_id", length = 3, nullable = false)
+	@Column(name = "city_id", length = 3)
 	private Long cityId;
 	@Column(name = "city_name", length = 30)
 	private String cityName;
@@ -31,15 +33,15 @@ public class CityEntity implements Serializable {
 	private StateEntity stateEntity;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "cityEntity")
-	private AddressEntity addressEntity;
+	@OneToMany(mappedBy = "cityEntity")
+	private List<AddressEntity> addressEntities;
 
-	public AddressEntity getAddressEntity() {
-		return addressEntity;
+	public List<AddressEntity> getAddressEntities() {
+		return addressEntities;
 	}
 
-	public void setAddressEntity(AddressEntity addressEntity) {
-		this.addressEntity = addressEntity;
+	public void setAddressEntities(List<AddressEntity> addressEntities) {
+		this.addressEntities = addressEntities;
 	}
 
 	public Long getCityId() {

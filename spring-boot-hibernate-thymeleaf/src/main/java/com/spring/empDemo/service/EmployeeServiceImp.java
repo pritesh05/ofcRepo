@@ -1,11 +1,8 @@
 package com.spring.empDemo.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.empDemo.exception.RecordNotFoundException;
+import com.spring.empDemo.model.entity.AddressEntity;
+import com.spring.empDemo.model.entity.DepartmentEntity;
 import com.spring.empDemo.model.entity.EmployeeEntity;
+import com.spring.empDemo.repository.AddressRepository;
+import com.spring.empDemo.repository.DepartmentRepository;
 import com.spring.empDemo.repository.EmployeeRepository;
 
 @Service
@@ -22,31 +23,27 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Autowired
 	EmployeeRepository eRepository;
+	@Autowired
+	DepartmentRepository dRepository;
+	@Autowired
+	AddressRepository aRepository;
 
 	@Override
-	public List<EmployeeEntity> getAllEmployees() throws ParseException {
-		List<EmployeeEntity> list=eRepository.findAll();
-		
-		HashMap<String, Object> hmap=new HashMap<String, Object>();
+	public List<EmployeeEntity> getAllEmployees()  {
+		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called !!!" + "\n");
+		List<EmployeeEntity> listEmp=eRepository.findAll();
 		String sUId;
-		for (EmployeeEntity employeeEntity : list) {
+		for (EmployeeEntity employeeEntity : listEmp) {
 			sUId="e";
 			sUId = sUId + UUID.randomUUID().toString()+employeeEntity.getId();
 			employeeEntity.setId(sUId);
-			System.err.println(sUId+"\n");
 			sUId=null;
-			hmap.put("id", employeeEntity.getDepartmentEntity().getId());
-			hmap.put("name", employeeEntity.getDepartmentEntity().getDepartment());
-			employeeEntity.setDepart(hmap);
 			employeeEntity.getId();
 			employeeEntity.getAddressEntity().setCityId(employeeEntity.getAddressEntity().getCityEntity().getCityId());
 			employeeEntity.getAddressEntity().setStateId(employeeEntity.getAddressEntity().getStateEntity().getStateId());
 			employeeEntity.getAddressEntity().setCountryId(employeeEntity.getAddressEntity().getCountryEntity().getCountryId());
-			System.err.println(employeeEntity.getAddressEntity().getCountryEntity().getCountryId());
-			
 		}
-		System.err.println(list);
-		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called !!!" + "\n");
+//		System.err.println(list);
 		return eRepository.findAll();
 	}
 
@@ -66,14 +63,21 @@ public class EmployeeServiceImp implements EmployeeService {
 
 	@Override
 	public EmployeeEntity addEmployee(EmployeeEntity newemp) {
-//		List<EmployeeEntity> l1 = new ArrayList<EmployeeEntity>();
-//		System.err.println(newemp.getDob());
+		Optional<DepartmentEntity> opDept = dRepository.findById(newemp.getDeptId());
+		Optional<AddressEntity> opAddr = aRepository.findById(newemp.getAddId());
+//		System.err.println(opDept.get().getId()+" ---- "+newemp.getDeptId());
+		newemp.setDepartmentEntity(opDept.get());
+		newemp.setAddressEntity(opAddr.get());
 		newemp = eRepository.save(newemp);
 		return newemp;
 	}
 
 	public List<EmployeeEntity> addEmployeeList(List<EmployeeEntity> newempList) {
 		for (EmployeeEntity employeeEntity : newempList) {
+			Optional<DepartmentEntity> opDept = dRepository.findById(employeeEntity.getDeptId());
+			Optional<AddressEntity> opAddr = aRepository.findById(employeeEntity.getAddId());
+			employeeEntity.setDepartmentEntity(opDept.get());
+			employeeEntity.setAddressEntity(opAddr.get());
 			employeeEntity = eRepository.save(employeeEntity);
 		}
 		return newempList;
@@ -112,27 +116,5 @@ public class EmployeeServiceImp implements EmployeeService {
 		return eRepository.save(updemp);
 	}
 
-/*	public EmployeeEntity createOrUpdateEmployee(EmployeeEntity entity) {
-		if (entity.getId() == null) {
-			entity = eRepository.save(entity);
-
-			return entity;
-		} else {
-			Optional<EmployeeEntity> employee = eRepository.findById(entity.getId());
-
-			if (employee.isPresent()) {
-				EmployeeEntity newEntity = employee.get();
-				newEntity.setEmail(entity.getEmail());
-				newEntity.setFirstName(entity.getFirstName());
-				newEntity.setLastName(entity.getLastName());
-
-				newEntity = eRepository.save(newEntity);
-				return newEntity;
-			} else {
-				entity = eRepository.save(entity);
-
-				return entity;
-			}
-		}
-	}*/
+ 
 }

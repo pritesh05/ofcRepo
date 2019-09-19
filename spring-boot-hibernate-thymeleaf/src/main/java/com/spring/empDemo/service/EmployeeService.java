@@ -10,7 +10,7 @@ import com.spring.empDemo.model.entity.EmployeeEntity;
 public interface EmployeeService {
 
 
-	public List<EmployeeEntity> getAllEmployees() throws ParseException  ;
+	public List<EmployeeEntity> getAllEmployees()  ;
 
 	public EmployeeEntity getEmployeeById(String id) throws RecordNotFoundException ;
 

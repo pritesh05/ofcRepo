@@ -25,7 +25,7 @@ public class DepartmentServiceImpl {
 		return dRepository.findAll();
 	}
 
-	public DepartmentEntity getDeptById(long id) throws RecordNotFoundException {
+	public DepartmentEntity getDeptById(Long id) throws RecordNotFoundException {
 		Optional<DepartmentEntity> optional = dRepository.findById(id);
 		if (optional.isPresent()) {
 			return optional.get();

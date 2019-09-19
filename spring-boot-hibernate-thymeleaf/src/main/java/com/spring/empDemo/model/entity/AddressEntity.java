@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -24,6 +25,7 @@ public class AddressEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "addr_id")
+	@JsonIgnore
 	private Long addrId;
 	@Column(name = "line1")
 	private String line1;
@@ -31,26 +33,19 @@ public class AddressEntity implements Serializable {
 	private String line2;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "addressEntity")
-	private EmployeeEntity employeeEntity;
-
-	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "city_id")
 	private CityEntity cityEntity;
 
 	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "state_id")
 	private StateEntity stateEntity;
-	
+
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "FK_country_id")
 	private CountryEntity countryEntity;
-	
-	
-	
 
 	@Transient
 	private Long cityId;
@@ -58,8 +53,7 @@ public class AddressEntity implements Serializable {
 	private Long stateId;
 	@Transient
 	private Long countryId;
-	
-	
+
 	public CountryEntity getCountryEntity() {
 		return countryEntity;
 	}
@@ -67,6 +61,7 @@ public class AddressEntity implements Serializable {
 	public void setCountryEntity(CountryEntity countryEntity) {
 		this.countryEntity = countryEntity;
 	}
+	@JsonGetter("state")
 	public Long getStateId() {
 		return stateId;
 	}
@@ -75,6 +70,7 @@ public class AddressEntity implements Serializable {
 		this.stateId = stateId;
 	}
 
+	@JsonGetter("country")
 	public Long getCountryId() {
 		return countryId;
 	}
@@ -83,6 +79,7 @@ public class AddressEntity implements Serializable {
 		this.countryId = countryId;
 	}
 
+	@JsonGetter("city")
 	public Long getCityId() {
 		return cityId;
 	}
@@ -97,16 +94,6 @@ public class AddressEntity implements Serializable {
 
 	public void setStateEntity(StateEntity stateEntity) {
 		this.stateEntity = stateEntity;
-	}
-
-	 
-
-	public EmployeeEntity getEmployeeEntity() {
-		return employeeEntity;
-	}
-
-	public void setEmployeeEntity(EmployeeEntity employeeEntity) {
-		this.employeeEntity = employeeEntity;
 	}
 
 	public CityEntity getCityEntity() {
@@ -147,3 +134,12 @@ public class AddressEntity implements Serializable {
 	}
 
 }
+
+/*
+ * // @JsonIgnore // @OneToOne(mappedBy = "addressEntity") // private
+ * EmployeeEntity employeeEntity;
+ * 
+ * // @JsonIgnore // @OneToOne(fetch = FetchType.LAZY,cascade =
+ * CascadeType.ALL,mappedBy = "addressEntity") // private EmployeeEntity
+ * employeeEntity;
+ */

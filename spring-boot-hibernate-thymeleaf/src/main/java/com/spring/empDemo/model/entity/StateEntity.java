@@ -40,24 +40,12 @@ public class StateEntity implements Serializable {
 	@OneToMany(mappedBy = "stateEntity")
 	private List<CityEntity> cityEntities;
 
-	@JsonIgnore
-	@OneToOne(mappedBy = "stateEntity")
-	private AddressEntity addressEntity;
-
 	public CountryEntity getCountryEntity() {
 		return countryEntity;
 	}
 
 	public void setCountryEntity(CountryEntity countryEntity) {
 		this.countryEntity = countryEntity;
-	}
-
-	public AddressEntity getAddressEntity() {
-		return addressEntity;
-	}
-
-	public void setAddressEntity(AddressEntity addressEntity) {
-		this.addressEntity = addressEntity;
 	}
 
 	public Long getStateId() {

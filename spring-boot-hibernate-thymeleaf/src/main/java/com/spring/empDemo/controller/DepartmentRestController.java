@@ -35,7 +35,7 @@ public class DepartmentRestController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public DepartmentEntity getDepartmentById(@PathVariable long id) throws Exception {
+	public DepartmentEntity getDepartmentById(@PathVariable Long id) throws Exception {
 		System.out.println(this.getClass().getSimpleName() + " - Get department details by id is invoked.");
 		DepartmentEntity dept  = dService.getDeptById(id);
 		return dept;
