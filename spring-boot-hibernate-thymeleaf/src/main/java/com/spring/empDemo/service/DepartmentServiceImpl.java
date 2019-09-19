@@ -20,7 +20,7 @@ public class DepartmentServiceImpl {
 //		List<DepartmentEntity> list=dRepository.findAll();
 //		for (DepartmentEntity employeeEntity : list) {
 //			System.err.println(employeeEntity);
-////			System.err.println(employeeEntity.getDepartmentEntity().getDepartment());
+//			System.err.println(employeeEntity.getDepartmentEntity().getDepartment());
 //		}
 		return dRepository.findAll();
 	}
@@ -33,6 +33,7 @@ public class DepartmentServiceImpl {
 			throw new RecordNotFoundException("No department record exist for given id");
 		}
 	}
+
 	public DepartmentEntity addDepartment(DepartmentEntity newDept) {
 //		List<EmployeeEntity> l1 = new ArrayList<EmployeeEntity>();
 //		System.err.println(newemp.getDob());
