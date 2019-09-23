@@ -1,11 +1,9 @@
 package com.spring.empDemo.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,36 +27,52 @@ public class EmployeeServiceImp implements EmployeeService {
 	AddressRepository aRepository;
 
 	@Override
-	public List<EmployeeEntity> getAllEmployees()  {
+	public List<EmployeeEntity> getAllEmployees() {
 		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called !!!" + "\n");
-		List<EmployeeEntity> listEmp=eRepository.findAll();
+		List<EmployeeEntity> listEmp = eRepository.findAll();
+		System.err.println(listEmp + "\n");
 		String sUId;
-		for (EmployeeEntity employeeEntity : listEmp) {
-			sUId="e";
-			sUId = sUId + UUID.randomUUID().toString()+employeeEntity.getId();
-			employeeEntity.setId(sUId);
-			sUId=null;
-			employeeEntity.getId();
-			employeeEntity.getAddressEntity().setCityId(employeeEntity.getAddressEntity().getCityEntity().getCityId());
-			employeeEntity.getAddressEntity().setStateId(employeeEntity.getAddressEntity().getStateEntity().getStateId());
-			employeeEntity.getAddressEntity().setCountryId(employeeEntity.getAddressEntity().getCountryEntity().getCountryId());
+		for (EmployeeEntity employee : listEmp) {
+			sUId = "e" + UUID.randomUUID().toString() + employee.getId();
+//			sUId = sUId + UUID.randomUUID().toString() + employee.getId();
+			employee.setId(sUId);
+			employee.getId();
+			if (employee.getAddressEntity() != null) {
+				getCusData(employee);
+			}
+			sUId = null;
 		}
-//		System.err.println(list);
-		return eRepository.findAll();
+		return listEmp;
 	}
-
 
 	@Override
 	public EmployeeEntity getEmployeeById(String id) throws RecordNotFoundException {
 		System.out.println("\n" + this.getClass().getSimpleName() + " getEmployeeById method called !!!" + "\n");
-		Optional<EmployeeEntity> employee = eRepository.findById(id);
-
-		if (employee.isPresent()) {
-//			String deptName = employee.get().getDepartmentEntity().getShortName();
-			return employee.get();
+		EmployeeEntity employee = eRepository.findByid(id);
+		if (employee != null) {
+			getCusData(employee);
+			return employee;
 		} else {
 			throw new RecordNotFoundException("No employee record exist for given id");
 		}
+	}
+
+	public EmployeeEntity getEmployeeByName(String firstname) throws RecordNotFoundException {
+		System.out.println("\n" + this.getClass().getSimpleName() + " getEmployeeByName method called !!!" + "\n");
+		EmployeeEntity employee = eRepository.findByfirstName(firstname);
+//		System.err.println(employee);
+		if (employee != null) {
+			getCusData(employee);
+			return employee;
+		} else {
+			throw new RecordNotFoundException("No employee record exist for given name");
+		}
+	}
+
+	private void getCusData(EmployeeEntity employee) {
+		employee.getAddressEntity().setCityId(employee.getAddressEntity().getCityEntity().getCityId());
+		employee.getAddressEntity().setStateId(employee.getAddressEntity().getStateEntity().getStateId());
+		employee.getAddressEntity().setCountryId(employee.getAddressEntity().getCountryEntity().getCountryId());
 	}
 
 	@Override
@@ -116,5 +130,35 @@ public class EmployeeServiceImp implements EmployeeService {
 		return eRepository.save(updemp);
 	}
 
- 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Optional<EmployeeEntity> employee = eRepository.findById(id);
+//sUId="e";
+//sUId = sUId + UUID.randomUUID().toString()+employeeEntity.getId();
+//employeeEntity.setId(sUId);
+//sUId=null;
+//employeeEntity.getId();
+//employeeEntity.getAddressEntity().setCityId(employeeEntity.getAddressEntity().getCityEntity().getCityId());
+//employeeEntity.getAddressEntity().setStateId(employeeEntity.getAddressEntity().getStateEntity().getStateId());
+//employeeEntity.getAddressEntity().setCountryId(employeeEntity.getAddressEntity().getCountryEntity().getCountryId());

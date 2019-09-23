@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,7 +37,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 @Table(name = "TBL_EMPLOYEES")
-@JsonIgnoreProperties(value = { "createdAt", "updatedAt" })
 public class EmployeeEntity implements Serializable {
 
 	public EmployeeEntity() {
@@ -99,7 +100,7 @@ public class EmployeeEntity implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "FK_address_id")
 	private AddressEntity addressEntity;
-
+	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private transient Long deptId;
 	@JsonProperty(access = Access.WRITE_ONLY)
@@ -239,8 +240,8 @@ public class EmployeeEntity implements Serializable {
 	public String toString() {
 		return "EmployeeEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
 				+ ", dob=" + dob + ", hireDate=" + hireDate + ", email=" + email + ", salary=" + salary + ", bonus="
-				+ bonus + ", comm=" + comm + ", createdAt=" + createdAt + ", modifyDate=" + modifyDate + ", deptId="
-				+ deptId + ", addId=" + addId + "]";
+				+ bonus + ", comm=" + comm + ", createdAt=" + createdAt + ", modifyDate=" + modifyDate
+				+ ", addressEntity=" + addressEntity + "]";
 	}
 
 }

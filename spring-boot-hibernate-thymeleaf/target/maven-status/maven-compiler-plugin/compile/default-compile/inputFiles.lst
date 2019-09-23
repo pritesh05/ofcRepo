@@ -1,4 +1,3 @@
-C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\model\entity\DepartmentManager.java
 C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\service\EmployeeServiceImp.java
 C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\service\StateService.java
 C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\service\userDetailsServiceImpl.java
@@ -31,4 +30,5 @@ C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\
 C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\repository\DepartmentRepository.java
 C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\swagger\SwaggerConfig.java
 C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\model\entity\AddressEntity.java
+C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\repository\AddressRepository.java
 C:\Users\dpritesh\git\ofcRepo\spring-boot-hibernate-thymeleaf\src\main\java\com\spring\empDemo\model\entity\EmployeeEntity.java

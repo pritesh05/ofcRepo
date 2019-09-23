@@ -10,4 +10,5 @@ import com.spring.empDemo.model.entity.UsersEntity;
 public interface AddressRepository extends JpaRepository<AddressEntity, Long>{
 
 
+
 }

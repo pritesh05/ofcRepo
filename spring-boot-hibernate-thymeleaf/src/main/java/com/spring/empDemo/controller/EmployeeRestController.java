@@ -1,9 +1,11 @@
 package com.spring.empDemo.controller;
 
-import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,19 +29,14 @@ public class EmployeeRestController {
 	@Autowired
 	EmployeeService service;
 
-//	@ApiOperation(value = "View a list of available employees", response = List.class)
-//	@RequestMapping(method = RequestMethod.GET)
-//	public List<EmployeeEntity> getAllEmployees() {
-//		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called..." + "\n");
-//		return service.getAllEmployees();
-//	}
-	
 	@ApiOperation(value = "View a list of available employees", response = List.class)
 	@RequestMapping(method = RequestMethod.GET)
-	public List<EmployeeEntity> getAllEmployees() throws ParseException {
+	public List<EmployeeEntity> getAllEmployees() {
 		System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called..." + "\n");
 		return service.getAllEmployees();
 	}
+	
+	 
 
 	@ApiOperation(value = "View a employees based on id", response = EmployeeEntity.class)
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -49,6 +46,12 @@ public class EmployeeRestController {
 		return emp;
 	}
 
+	@RequestMapping(value = "name/{firstname}", method = RequestMethod.GET)
+	public EmployeeEntity getEmployeeByName(@PathVariable String firstname) throws Exception {
+		System.out.println(this.getClass().getSimpleName() + " - Get employee details by name is invoked.");
+		EmployeeEntity emp = service.getEmployeeByName(firstname);
+		return emp;
+	}
 	
 	@ApiOperation(value = "Add employee Record")
 	@RequestMapping(method = RequestMethod.POST)
@@ -84,9 +87,16 @@ public class EmployeeRestController {
 
 	@ApiOperation(value = "Delete all employees Records")
 	@ApiResponses(value = { @ApiResponse(code = 204, message = "No Content") })
-	@RequestMapping( method = RequestMethod.DELETE)
+	@RequestMapping(method = RequestMethod.DELETE)
 	public void deleteAll() {
 		System.out.println(this.getClass().getSimpleName() + " - Delete all employees is invoked.");
 		service.deleteAllEmployees();
 	}
 }
+
+//@ApiOperation(value = "View a list of available employees", response = List.class)
+//@RequestMapping(method = RequestMethod.GET)
+//public List<EmployeeEntity> getAllEmployees() {
+//	System.out.println("\n" + this.getClass().getSimpleName() + " getAllEmployees method called..." + "\n");
+//	return service.getAllEmployees();
+//}

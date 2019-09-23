@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,6 +33,9 @@ public class AddressEntity implements Serializable {
 	@Column(name = "line2")
 	private String line2;
 
+	@OneToOne(mappedBy = "addressEntity")
+	private EmployeeEntity employeeEntity;
+	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "city_id")
@@ -61,6 +65,7 @@ public class AddressEntity implements Serializable {
 	public void setCountryEntity(CountryEntity countryEntity) {
 		this.countryEntity = countryEntity;
 	}
+
 	@JsonGetter("state")
 	public Long getStateId() {
 		return stateId;
@@ -134,6 +139,13 @@ public class AddressEntity implements Serializable {
 	}
 
 }
+
+
+
+
+
+
+
 
 /*
  * // @JsonIgnore // @OneToOne(mappedBy = "addressEntity") // private

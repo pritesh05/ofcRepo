@@ -25,8 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}*/
 
 	protected void configure(AuthenticationManagerBuilder authBuilder) throws Exception {
-		System.err.println(new Object() {
-		}.getClass().getEnclosingMethod().getName() + " method called !!!");
+//		System.err.println(new Object() {}.getClass().getEnclosingMethod().getName() + " method called !!!");
 
 		authBuilder.inMemoryAuthentication().withUser("root").password("{noop}root").roles("USER");
 
@@ -40,13 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	protected void configure(HttpSecurity http) throws Exception {
-		System.err.println(new Object() {
-		}.getClass().getEnclosingMethod().getName() + " HttpSecurity method called !!!");
+//		System.err.println(new Object() {}.getClass().getEnclosingMethod().getName() + " HttpSecurity method called !!!");
 
 		http.csrf().disable().authorizeRequests().anyRequest().authenticated().antMatchers("employee/all**")
 				.hasRole("admin").and().httpBasic().and().formLogin();
 		
-//		http
 
 	}
 }

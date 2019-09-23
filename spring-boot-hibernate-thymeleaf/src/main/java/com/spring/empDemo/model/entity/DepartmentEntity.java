@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 public class DepartmentEntity implements Serializable {
 
 	public DepartmentEntity() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Id
@@ -91,8 +90,43 @@ public class DepartmentEntity implements Serializable {
 		return "DepartmentEntity [id=" + id + ", department=" + department + ", shortName=" + shortName + "]";
 	}
 
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "JOIN_TBL_EMP_DEPT")
-//	private EmployeeEntity employeeEntities ;
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//@OneToMany(cascade = CascadeType.ALL)
+//@JoinTable(name = "JOIN_TBL_EMP_DEPT")
+//private EmployeeEntity employeeEntities ;
